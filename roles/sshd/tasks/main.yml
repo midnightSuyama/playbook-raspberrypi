@@ -1,0 +1,30 @@
+- name: make directory .ssh
+  file: path=~/.ssh mode=700 state=directory
+
+- name: copy public key
+  copy: src=~/.ssh/id_rsa.pub dest=~/.ssh/authorized_keys mode=400
+
+- name: change sshd config PermitRootLogin
+  lineinfile: dest=/etc/ssh/sshd_config regexp='^PermitRootLogin' insertafter='^#PermitRootLogin' line='PermitRootLogin no' validate='sshd -T -f %s'
+  sudo: yes
+  notify: restart sshd
+
+- name: change sshd config RSAAuthentication
+  lineinfile: dest=/etc/ssh/sshd_config regexp='^RSAAuthentication' insertafter='^#RSAAuthentication' line='RSAAuthentication yes' validate='sshd -T -f %s'
+  sudo: yes
+  notify: restart sshd
+
+- name: change sshd config PubkeyAuthentication
+  lineinfile: dest=/etc/ssh/sshd_config regexp='^PubkeyAuthentication' insertafter='^#PubkeyAuthentication' line='PubkeyAuthentication yes' validate='sshd -T -f %s'
+  sudo: yes
+  notify: restart sshd
+
+- name: change sshd config AuthorizedKeysFile
+  lineinfile: dest=/etc/ssh/sshd_config regexp='^AuthorizedKeysFile' insertafter='^#AuthorizedKeysFile' line='AuthorizedKeysFile %h/.ssh/authorized_keys' validate='sshd -T -f %s'
+  sudo: yes
+  notify: restart sshd
+
+- name: change sshd config PasswordAuthentication
+  lineinfile: dest=/etc/ssh/sshd_config regexp='^PasswordAuthentication' insertafter='^#PasswordAuthentication' line='PasswordAuthentication no' validate='sshd -T -f %s'
+  sudo: yes
+  notify: restart sshd

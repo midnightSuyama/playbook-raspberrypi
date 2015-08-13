@@ -1,0 +1,8 @@
+- hosts: all
+  roles:
+    - common
+    - sshd
+    - ssmtp
+    - zsh
+    - tmux
+    - emacs
