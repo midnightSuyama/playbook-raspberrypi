@@ -6,25 +6,25 @@
 
 - name: change sshd config PermitRootLogin
   lineinfile: dest=/etc/ssh/sshd_config regexp='^PermitRootLogin' insertafter='^#PermitRootLogin' line='PermitRootLogin no' validate='sshd -T -f %s'
-  sudo: yes
+  become: yes
   notify: restart sshd
 
 - name: change sshd config RSAAuthentication
   lineinfile: dest=/etc/ssh/sshd_config regexp='^RSAAuthentication' insertafter='^#RSAAuthentication' line='RSAAuthentication yes' validate='sshd -T -f %s'
-  sudo: yes
+  become: yes
   notify: restart sshd
 
 - name: change sshd config PubkeyAuthentication
   lineinfile: dest=/etc/ssh/sshd_config regexp='^PubkeyAuthentication' insertafter='^#PubkeyAuthentication' line='PubkeyAuthentication yes' validate='sshd -T -f %s'
-  sudo: yes
+  become: yes
   notify: restart sshd
 
 - name: change sshd config AuthorizedKeysFile
   lineinfile: dest=/etc/ssh/sshd_config regexp='^AuthorizedKeysFile' insertafter='^#AuthorizedKeysFile' line='AuthorizedKeysFile %h/.ssh/authorized_keys' validate='sshd -T -f %s'
-  sudo: yes
+  become: yes
   notify: restart sshd
 
 - name: change sshd config PasswordAuthentication
   lineinfile: dest=/etc/ssh/sshd_config regexp='^PasswordAuthentication' insertafter='^#PasswordAuthentication' line='PasswordAuthentication no' validate='sshd -T -f %s'
-  sudo: yes
+  become: yes
   notify: restart sshd

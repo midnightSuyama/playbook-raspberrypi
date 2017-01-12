@@ -1,6 +1,6 @@
 - name: install emacs
   apt: name=emacs
-  sudo: yes
+  become: yes
 
 - name: create directory .emacs.d
   file: path=~/.emacs.d mode=700 state=directory
